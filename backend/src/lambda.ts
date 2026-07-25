@@ -1,14 +1,13 @@
-// AWS Lambda entrypoint (bundled by `npm run build:lambda`).
-// Lambda has no D1/KV bindings, so in-memory repositories are wired in here.
-// Replace with DynamoDB/RDS/ElastiCache implementations for production use.
 import { handle } from 'hono/aws-lambda'
 import { createApp } from './app'
 import { createContainer } from './di/container'
 import { MemoryCacheRepository } from './infrastructure/memory/memory-cache-repository'
+import { MemoryLocationRepository } from './infrastructure/memory/memory-location-repository'
 import { MemoryUserRepository } from './infrastructure/memory/memory-user-repository'
 
 const container = createContainer({
   userRepository: new MemoryUserRepository(),
+  locationRepository: new MemoryLocationRepository(),
   cacheRepository: new MemoryCacheRepository(),
 })
 
